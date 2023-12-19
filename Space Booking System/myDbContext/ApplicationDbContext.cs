@@ -14,6 +14,13 @@ namespace Space_Booking_System.myDbContext
         {
             optionsBuilder.UseSqlServer("Data Source=ENGABUFIRAS-PC;Initial Catalog=ReservationSystem;Integrated Security=True;");
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Booking>()
+            .HasOne(b => b.Space)               // A booking has one space
+            .WithMany(s => s.Bookings)           // A space has many bookings
+            .HasForeignKey(b => b.SpaceID);
+        }
         public DbSet<Booking> Bookings { get; set; }
         public DbSet<Space> Spaces { get; set; }
 
